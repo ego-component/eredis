@@ -17,7 +17,7 @@ import (
 	"github.com/gotomicro/ego/core/emetric"
 	"github.com/gotomicro/ego/core/etrace"
 	"github.com/gotomicro/ego/core/transport"
-	"github.com/gotomicro/ego/core/util/xcolor"
+	"github.com/gotomicro/ego/core/util/xdebug"
 	"github.com/spf13/cast"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
@@ -118,11 +118,11 @@ func debugInterceptor(compName string, config *config, logger *elog.Component) *
 			err := cmd.Err()
 			if err != nil {
 				log.Println("[eredis.response]",
-					makeReqResError(fileWithLineNum(), compName, addr, cost, fmt.Sprintf("%v", cmd.Args()), err.Error()),
+					xdebug.MakeReqAndResError(fileWithLineNum(), compName, addr, cost, fmt.Sprintf("%v", cmd.Args()), err.Error()),
 				)
 			} else {
 				log.Println("[eredis.response]",
-					makeReqResInfo(fileWithLineNum(), compName, addr, cost, fmt.Sprintf("%v", cmd.Args()), response(cmd)),
+					xdebug.MakeReqAndResInfo(fileWithLineNum(), compName, addr, cost, fmt.Sprintf("%v", cmd.Args()), response(cmd)),
 				)
 			}
 			return err
@@ -277,22 +277,15 @@ func peerInfo(addr string) (hostname string, port int) {
 }
 
 func fileWithLineNum() string {
-	// the second caller usually from gorm internal, so set i start from 2
+	// the second caller usually from internal, so set i start from 2
 	for i := 2; i < 15; i++ {
 		_, file, line, ok := runtime.Caller(i)
-		if ok && ((!strings.Contains(file, "github/ego-component/eredis/interceptor") && !strings.Contains(file, "github/ego-component/eredis/comopnent_cmds") && !strings.Contains(file, "go-redis/redis")) || strings.HasSuffix(file, "_test.go")) {
+		if !ok {
+			break
+		}
+		if (!strings.HasSuffix(file, "github/ego-component/eredis/interceptor.go") && !strings.HasSuffix(file, "github/ego-component/eredis/comopnent_cmds.go") && !strings.Contains(file, "go-redis/redis")) || strings.HasSuffix(file, "_test.go") {
 			return file + ":" + strconv.FormatInt(int64(line), 10)
 		}
 	}
 	return ""
-}
-
-// makeReqResError 以error级别打印行号、配置名、目标地址、耗时、请求数据、响应数据
-func makeReqResError(line string, compName string, addr string, cost time.Duration, req string, err string) string {
-	return fmt.Sprintf("%s %s %s %s %s => %s", xcolor.Green(line), xcolor.Red(compName), xcolor.Red(addr), xcolor.Yellow(fmt.Sprintf("[%vms]", float64(cost.Microseconds())/1000)), xcolor.Blue(fmt.Sprintf("%v", req)), xcolor.Red(err))
-}
-
-// makeReqResInfo 以info级别打印行号、配置名、目标地址、耗时、请求数据、响应数据
-func makeReqResInfo(line string, compName string, addr string, cost time.Duration, req interface{}, reply interface{}) string {
-	return fmt.Sprintf("%s %s %s %s %s => %s", xcolor.Green(line), xcolor.Green(compName), xcolor.Green(addr), xcolor.Yellow(fmt.Sprintf("[%vms]", float64(cost.Microseconds())/1000)), xcolor.Blue(fmt.Sprintf("%v", req)), xcolor.Blue(fmt.Sprintf("%v", reply)))
 }

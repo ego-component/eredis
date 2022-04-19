@@ -1,4 +1,11 @@
 # eredis 组件使用指南
+[![goproxy.cn](https://goproxy.cn/stats/github.com/ego-component/egorm/badges/download-count.svg)](https://goproxy.cn/stats/github.com/ego-component/eredis)
+[![Release](https://img.shields.io/github/v/release/ego-component/eredis.svg?style=flat-square)](https://github.com/ego-component/eredis)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Example](https://img.shields.io/badge/Examples-2ca5e0?style=flat&logo=appveyor)](https://github.com/ego-component/eredis/tree/master/examples)
+[![Doc](https://img.shields.io/badge/Docs-1?style=flat&logo=appveyor)](https://ego.gocn.vip/frame/client/redis.html#_1-%E7%AE%80%E4%BB%8B)
+
+
 ## 1 简介
 对 [go-redis](https://github.com/go-redis/redis) 进行了轻量封装，并提供了以下功能：
 - 规范了标准配置格式，提供了统一的 Load().Build() 方法。
@@ -10,10 +17,8 @@
 - 提供了redis的分布式锁的定时任务
 
 ## 2 说明
-* [example地址](https://github.com/ego-component/eredis/tree/master/examples)
-* [文档地址](https://ego.gocn.vip/frame/client/redis.html#_1-%E7%AE%80%E4%BB%8B)
-* ego版本：``ego@v1.0.0``
-* eredis版本: ``eredis@1.0.0``
+* ego版本：``ego@v1.0.1``
+* eredis版本: ``eredis@1.0.1``
 
 ## 3 使用方式
 ```bash
