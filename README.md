@@ -11,6 +11,7 @@
 
 ## 2 说明
 * [example地址](https://github.com/ego-component/eredis/tree/master/examples)
+* [文档地址](https://ego.gocn.vip/frame/client/redis.html#_1-%E7%AE%80%E4%BB%8B)
 * ego版本：``ego@v1.0.0``
 * eredis版本: ``eredis@1.0.0``
 
