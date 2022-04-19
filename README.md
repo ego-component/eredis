@@ -72,7 +72,7 @@ type config struct {
 ### 5.2 优雅的Debug
 通过开启 `debug` 配置和命令行的 `export EGO_DEBUG=true`，我们就可以在测试环境里看到请求里的配置名、地址、耗时、请求数据、响应数据
 
-![image](../../images/eredis/ego_debug.png)
+![image](https://cdn.gocn.vip/ego/assets/img/ego_debug.aaa4d8b6.png)
 
 ### 5.3 用户代码
 配置创建一个 `redis` 的配置项，其中内容按照上文配置进行填写。以上这个示例里这个配置key是`redis.test`
@@ -168,11 +168,12 @@ enableAccessInterceptorReq=true    # 是否开启记录请求参数
 enableAccessInterceptorRes=true    # 是否开启记录响应参数
 ```
 
-![img.png](../../images/eredis/enable_req_res.png)
+![img.png](https://cdn.gocn.vip/ego/assets/img/enable_req_res.73b8da7e.png)
 
 ### 6.3 开启自定义日志字段的数据
 在使用了ego的自定义字段功能`export EGO_LOG_EXTRA_KEYS=X-Ego-Uid`，将对应的数据塞入到context中，那么redis的access日志就可以记录对应字段信息。
 参考 [详细文档](https://ego.gocn.vip/micro/chapter2/trace.html#_6-ego-access-%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E8%B7%AF) ：
+
 ```go
 func testRedis() error {
     ctx := context.Background()
