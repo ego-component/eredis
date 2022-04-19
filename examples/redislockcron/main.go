@@ -8,8 +8,8 @@ import (
 	"github.com/gotomicro/ego/core/elog"
 	"github.com/gotomicro/ego/task/ecron"
 
-	"github.com/gotomicro/ego-component/eredis"
-	"github.com/gotomicro/ego-component/eredis/ecronlock"
+	"github.com/ego-component/eredis"
+	"github.com/ego-component/eredis/ecronlock"
 )
 
 var (

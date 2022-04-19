@@ -88,7 +88,7 @@ import (
     "fmt"
 
     "github.com/gotomicro/ego"
-    "github.com/gotomicro/ego-component/eredis"
+    "github.com/ego-component/eredis"
     "github.com/gotomicro/ego/core/elog"
 )
 

@@ -4,7 +4,7 @@ import (
 	"github.com/gotomicro/ego/core/econf"
 	"github.com/gotomicro/ego/core/elog"
 
-	"github.com/gotomicro/ego-component/eredis"
+	"github.com/ego-component/eredis"
 )
 
 type Option func(c *Container)

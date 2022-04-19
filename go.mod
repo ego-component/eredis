@@ -1,6 +1,6 @@
-module github.com/gotomicro/ego-component/eredis
+module github.com/ego-component/eredis
 
-go 1.15
+go 1.16
 
 require (
 	github.com/BurntSushi/toml v0.3.1

@@ -8,7 +8,7 @@ import (
 	"github.com/gotomicro/ego"
 	"github.com/gotomicro/ego/core/elog"
 
-	"github.com/gotomicro/ego-component/eredis"
+	"github.com/ego-component/eredis"
 )
 
 // export EGO_DEBUG=true && go run main.go --config=config.toml
