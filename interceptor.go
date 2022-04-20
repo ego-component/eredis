@@ -283,7 +283,7 @@ func fileWithLineNum() string {
 		if !ok {
 			break
 		}
-		if (!strings.HasSuffix(file, "github/ego-component/eredis/interceptor.go") && !strings.HasSuffix(file, "github/ego-component/eredis/comopnent_cmds.go") && !strings.Contains(file, "go-redis/redis")) || strings.HasSuffix(file, "_test.go") {
+		if (!(strings.Contains(file, "ego-component/eredis") && strings.HasSuffix(file, "interceptor.go")) && !(strings.Contains(file, "ego-component/eredis") && strings.HasSuffix(file, "comopnent_cmds.go")) && !strings.Contains(file, "go-redis/redis")) || strings.HasSuffix(file, "_test.go") {
 			return file + ":" + strconv.FormatInt(int64(line), 10)
 		}
 	}
