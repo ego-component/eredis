@@ -64,12 +64,22 @@ func (c *Container) Build(options ...Option) *Component {
 		if len(c.config.Addrs) == 0 {
 			c.logger.Panic(`invalid "addrs" config, "addrs" has none addresses but with cluster mode"`)
 		}
-		client = c.buildCluster()
+		obj := c.buildCluster()
+		client = obj
+		// store db
+		instances.Store(c.name, &storeRedis{
+			ClientCluster: obj,
+		})
 	case StubMode:
 		if c.config.Addr == "" {
 			c.logger.Panic(`invalid "addr" config, "addr" is empty but with cluster mode"`)
 		}
-		client = c.buildStub()
+		obj := c.buildStub()
+		client = obj
+		// store db
+		instances.Store(c.name, &storeRedis{
+			ClientStub: obj,
+		})
 	case SentinelMode:
 		if len(c.config.Addrs) == 0 {
 			c.logger.Panic(`invalid "addrs" config, "addrs" has none addresses but with sentinel mode"`)
@@ -77,12 +87,18 @@ func (c *Container) Build(options ...Option) *Component {
 		if c.config.MasterName == "" {
 			c.logger.Panic(`invalid "masterName" config, "masterName" is empty but with sentinel mode"`)
 		}
-		client = c.buildSentinel()
+		obj := c.buildSentinel()
+		client = obj
+		// store db
+		instances.Store(c.name, &storeRedis{
+			ClientStub: obj,
+		})
 	default:
 		c.logger.Panic(`redis mode must be one of ("stub", "cluster", "sentinel")`)
 	}
 
 	c.logger = c.logger.With(elog.FieldAddr(fmt.Sprintf("%s", c.config.Addrs)))
+
 	return &Component{
 		config:     c.config,
 		client:     client,
