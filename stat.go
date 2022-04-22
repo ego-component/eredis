@@ -19,15 +19,8 @@ type storeRedis struct {
 }
 
 func init() {
-	type redisStatus struct {
-		Redis map[string]interface{} `json:"redis"`
-	}
-	var rets = redisStatus{
-		Redis: make(map[string]interface{}, 0),
-	}
 	egovernor.HandleFunc("/debug/redis/stats", func(w http.ResponseWriter, r *http.Request) {
-		rets.Redis = stats()
-		_ = jsoniter.NewEncoder(w).Encode(rets)
+		_ = jsoniter.NewEncoder(w).Encode(stats())
 	})
 	go monitor()
 }
@@ -73,6 +66,5 @@ func stats() (stats map[string]interface{}) {
 		}
 		return true
 	})
-
 	return
 }
