@@ -229,4 +229,9 @@ func helloWorld(ctx context.Context) error {
 
 ```
 
+## 8 Redis监控数据
+![img.png](https://cdn.gocn.vip/ego/assets/img/ego_metric_handle.5827c387.png)
+![img.png](https://cdn.gocn.vip/ego/assets/img/ego_metric_stats.28e9e595.png)
+![img.png](https://cdn.gocn.vip/ego/assets/img/ego_current_metric.e2c65339.png)
+
 

@@ -6,7 +6,7 @@ require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/go-redis/redis/extra/rediscmd/v8 v8.11.4
 	github.com/go-redis/redis/v8 v8.11.4
-	github.com/gotomicro/ego v1.0.2
+	github.com/gotomicro/ego v1.0.3-0.20220422043740-dd25289ced38
 	github.com/spf13/cast v1.3.1
 	github.com/stretchr/testify v1.7.0
 	go.opentelemetry.io/otel v1.4.1
@@ -20,11 +20,13 @@ require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/felixge/fgprof v0.9.1 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-logr/logr v1.2.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.2.5 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/pprof v0.0.0-20200708004538-1a94d8640e99 // indirect
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/gotomicro/logrotate v0.0.0-20211108024517-45d1f9a03ff5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
