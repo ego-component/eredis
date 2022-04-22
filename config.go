@@ -25,7 +25,7 @@ type config struct {
 	MasterName                 string        // MasterName 哨兵主节点名称，sentinel模式下需要配置此项
 	Password                   string        // Password 密码
 	DB                         int           // DB，默认为0, 一般应用不推荐使用DB分片
-	PoolSize                   int           // PoolSize 集群内每个节点的最大连接池限制 默认每个CPU10个连接
+	PoolSize                   int           // PoolSize 集群内每个节点的最大连接池限制
 	MaxRetries                 int           // MaxRetries 网络相关的错误最大重试次数 默认8次
 	MinIdleConns               int           // MinIdleConns 最小空闲连接数
 	DialTimeout                time.Duration // DialTimeout 拨超时时间
@@ -49,9 +49,9 @@ func DefaultConfig() *config {
 	return &config{
 		Mode:                    StubMode,
 		DB:                      0,
-		PoolSize:                10,
+		PoolSize:                20,
 		MaxRetries:              0,
-		MinIdleConns:            20,
+		MinIdleConns:            4,
 		DialTimeout:             xtime.Duration("1s"),
 		ReadTimeout:             xtime.Duration("1s"),
 		WriteTimeout:            xtime.Duration("1s"),
