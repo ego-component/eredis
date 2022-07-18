@@ -55,3 +55,17 @@ func WithAddrs(addrs []string) Option {
 		c.config.Addrs = addrs
 	}
 }
+
+// WithMasterName set masterName for sentinel mode
+func WithMasterName(masterName string) Option {
+	return func(c *Container) {
+		c.config.MasterName = masterName
+	}
+}
+
+// WithPoolSize set pool size
+func WithPoolSize(poolSize int) Option {
+	return func(c *Container) {
+		c.config.PoolSize = poolSize
+	}
+}
