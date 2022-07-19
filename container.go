@@ -72,7 +72,7 @@ func (c *Container) Build(options ...Option) *Component {
 		})
 	case StubMode:
 		if c.config.Addr == "" {
-			c.logger.Panic(`invalid "addr" config, "addr" is empty but with cluster mode"`)
+			c.logger.Panic(`invalid "addr" config, "addr" is empty but with stub mode"`)
 		}
 		obj := c.buildStub()
 		client = obj
