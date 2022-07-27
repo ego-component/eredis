@@ -197,5 +197,5 @@ func (c *Container) buildStub() *redis.Client {
 }
 
 func (c *Container) Printf(ctx context.Context, format string, v ...interface{}) {
-	c.logger.Errorf(format, v)
+	c.logger.Errorf(format, v...)
 }
