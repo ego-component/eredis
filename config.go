@@ -42,6 +42,8 @@ type config struct {
 	EnableAccessInterceptorReq bool          // 是否开启记录请求参数
 	EnableAccessInterceptorRes bool          // 是否开启记录响应参数
 	interceptors               []redis.Hook
+	// TLS 参数支持
+	Authentication Authentication
 }
 
 // DefaultConfig default config ...

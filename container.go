@@ -120,6 +120,7 @@ func (c *Container) buildCluster() *redis.ClusterClient {
 		PoolSize:     c.config.PoolSize,
 		MinIdleConns: c.config.MinIdleConns,
 		IdleTimeout:  c.config.IdleTimeout,
+		TLSConfig:    c.config.Authentication.TLSConfig(),
 	})
 
 	for _, incpt := range c.config.interceptors {
@@ -150,6 +151,7 @@ func (c *Container) buildSentinel() *redis.Client {
 		PoolSize:      c.config.PoolSize,
 		MinIdleConns:  c.config.MinIdleConns,
 		IdleTimeout:   c.config.IdleTimeout,
+		TLSConfig:     c.config.Authentication.TLSConfig(),
 	})
 
 	for _, incpt := range c.config.interceptors {
@@ -179,6 +181,7 @@ func (c *Container) buildStub() *redis.Client {
 		PoolSize:     c.config.PoolSize,
 		MinIdleConns: c.config.MinIdleConns,
 		IdleTimeout:  c.config.IdleTimeout,
+		TLSConfig:    c.config.Authentication.TLSConfig(),
 	})
 
 	for _, incpt := range c.config.interceptors {
