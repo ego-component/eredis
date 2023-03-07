@@ -62,7 +62,13 @@ type config struct {
    debug = true # ego增加redis debug，打开后可以看到，配置名、地址、耗时、请求数据、响应数据
    mode = "stub" # 默认为stub单实例模式，可选"stub|cluster|sentinel"
    addr = "127.0.0.1:6379"
-
+  [redis.stub.authentication]
+    [redis.stub.authentication.tls]
+      enabled=false
+      CAFile=""
+      CertFile="./cert/tls.pem"
+      KeyFile="./cert/tls.key"
+      InsecureSkipVerify=true
 # cluster集群模式配置示例
 [redis.cluster]
    debug = true
