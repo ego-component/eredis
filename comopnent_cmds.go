@@ -58,7 +58,7 @@ func (r *Component) MGetString(ctx context.Context, keys ...string) ([]string, e
 }
 
 // MGets ...
-func (r *Component) MGet(ctx context.Context, keys []string) ([]interface{}, error) {
+func (r *Component) MGet(ctx context.Context, keys ...string) ([]interface{}, error) {
 	return r.client.MGet(ctx, keys...).Result()
 }
 
@@ -257,8 +257,8 @@ func (r *Component) ZCount(ctx context.Context, key string, min, max string) (in
 }
 
 // Del redis删除
-func (r *Component) Del(ctx context.Context, key string) (int64, error) {
-	return r.client.Del(ctx, key).Result()
+func (r *Component) Del(ctx context.Context, key ...string) (int64, error) {
+	return r.client.Del(ctx, key...).Result()
 }
 
 // HIncrBy 哈希field自增
