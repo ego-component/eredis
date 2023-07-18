@@ -345,6 +345,11 @@ func (r *Component) SIsMember(ctx context.Context, key string, member interface{
 	return r.client.SIsMember(ctx, key, member).Result()
 }
 
+// SCard 获取集合内的元素个数
+func (r *Component) SCard(ctx context.Context, key string) (int64, error) {
+	return r.client.SCard(ctx, key).Result()
+}
+
 // SRem ...
 func (r *Component) SRem(ctx context.Context, key string, member interface{}) (int64, error) {
 	return r.client.SRem(ctx, key, member).Result()
