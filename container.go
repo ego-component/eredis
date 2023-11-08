@@ -140,18 +140,19 @@ func (c *Container) buildCluster() *redis.ClusterClient {
 
 func (c *Container) buildSentinel() *redis.Client {
 	sentinelClient := redis.NewFailoverClient(&redis.FailoverOptions{
-		MasterName:    c.config.MasterName,
-		SentinelAddrs: c.config.Addrs,
-		Password:      c.config.Password,
-		DB:            c.config.DB,
-		MaxRetries:    c.config.MaxRetries,
-		DialTimeout:   c.config.DialTimeout,
-		ReadTimeout:   c.config.ReadTimeout,
-		WriteTimeout:  c.config.WriteTimeout,
-		PoolSize:      c.config.PoolSize,
-		MinIdleConns:  c.config.MinIdleConns,
-		IdleTimeout:   c.config.IdleTimeout,
-		TLSConfig:     c.config.Authentication.TLSConfig(),
+		MasterName:       c.config.MasterName,
+		SentinelAddrs:    c.config.Addrs,
+		SentinelPassword: c.config.SentinelPassword,
+		Password:         c.config.Password,
+		DB:               c.config.DB,
+		MaxRetries:       c.config.MaxRetries,
+		DialTimeout:      c.config.DialTimeout,
+		ReadTimeout:      c.config.ReadTimeout,
+		WriteTimeout:     c.config.WriteTimeout,
+		PoolSize:         c.config.PoolSize,
+		MinIdleConns:     c.config.MinIdleConns,
+		IdleTimeout:      c.config.IdleTimeout,
+		TLSConfig:        c.config.Authentication.TLSConfig(),
 	})
 
 	for _, incpt := range c.config.interceptors {
