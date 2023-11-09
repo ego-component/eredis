@@ -7,7 +7,6 @@ require (
 	github.com/go-redis/redis/extra/rediscmd/v8 v8.11.4
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/gotomicro/ego v1.0.3
-	github.com/json-iterator/go v1.1.12
 	github.com/spf13/cast v1.3.1
 	github.com/stretchr/testify v1.7.0
 	go.opentelemetry.io/otel v1.4.1
@@ -30,6 +29,7 @@ require (
 	github.com/google/pprof v0.0.0-20200708004538-1a94d8640e99 // indirect
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/gotomicro/logrotate v0.0.0-20211108024517-45d1f9a03ff5 // indirect
+	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/mitchellh/mapstructure v1.3.2 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
