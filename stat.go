@@ -1,14 +1,15 @@
 package eredis
 
 import (
+	"encoding/json"
 	"net/http"
 	"sync"
 	"time"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/gotomicro/ego/core/elog"
 	"github.com/gotomicro/ego/core/emetric"
 	"github.com/gotomicro/ego/server/egovernor"
-	jsoniter "github.com/json-iterator/go"
 )
 
 var instances = sync.Map{}
@@ -20,7 +21,9 @@ type storeRedis struct {
 
 func init() {
 	egovernor.HandleFunc("/debug/redis/stats", func(w http.ResponseWriter, r *http.Request) {
-		_ = jsoniter.NewEncoder(w).Encode(stats())
+		if err := json.NewEncoder(w).Encode(stats()); err != nil {
+			elog.Error("encode stats fail", elog.FieldErr(err))
+		}
 	})
 	go monitor()
 }

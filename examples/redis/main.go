@@ -31,10 +31,10 @@ func invokerRedis() error {
 func testRedis() error {
 	err := eredisClient.Set(context.Background(), "hello", "world", 0)
 	fmt.Println("set hello", err)
-	//str, err := eredisClient.Get(context.Background(), "hello")
-	//fmt.Println("get hello", str, err)
-	//str, err = eredisClient.Get(context.Background(), "lee")
-	//fmt.Println("Get lee", errors.Is(err, eredis.Nil), "err="+err.Error())
+	// str, err := eredisClient.Get(context.Background(), "hello")
+	// fmt.Println("get hello", str, err)
+	// str, err = eredisClient.Get(context.Background(), "lee")
+	// fmt.Println("Get lee", errors.Is(err, eredis.Nil), "err="+err.Error())
 	eredisClient.Get(context.Background(), "hello")
 	eredisClient.Get(context.Background(), "lee")
 	return nil
