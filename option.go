@@ -69,3 +69,10 @@ func WithPoolSize(poolSize int) Option {
 		c.config.PoolSize = poolSize
 	}
 }
+
+// WithDB set db number
+func WithDB(db int) Option {
+	return func(c *Container) {
+		c.config.DB = db
+	}
+}
