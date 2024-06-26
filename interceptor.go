@@ -155,11 +155,11 @@ func metricInterceptor(compName string, config *config, logger *elog.Component) 
 func accessInterceptor(compName string, config *config, logger *elog.Component) *interceptor {
 	return newInterceptor(compName, config, logger).setAfterProcess(
 		func(ctx context.Context, cmd redis.Cmder) error {
-			loggerKeys := transport.CustomContextKeys()
-			var fields = make([]elog.Field, 0, 15+len(loggerKeys))
+			var fields = make([]elog.Field, 0, 15+transport.CustomContextKeysLength())
 			var err = cmd.Err()
 			cost := time.Since(ctx.Value(ctxBegKey).(time.Time))
-			fields = append(fields, elog.FieldComponentName(compName),
+			fields = append(fields,
+				elog.FieldComponentName(compName),
 				elog.FieldMethod(cmd.Name()),
 				elog.FieldCost(cost))
 
@@ -171,24 +171,26 @@ func accessInterceptor(compName string, config *config, logger *elog.Component) 
 			}
 
 			// 开启了链路，那么就记录链路id
-			if config.EnableTraceInterceptor && etrace.IsGlobalTracerRegistered() {
+			if etrace.IsGlobalTracerRegistered() {
 				fields = append(fields, elog.FieldTid(etrace.ExtractTraceID(ctx)))
 			}
 
 			// 支持自定义log
-			for _, key := range loggerKeys {
+			for _, key := range transport.CustomContextKeys() {
 				if value := getContextValue(ctx, key); value != "" {
 					fields = append(fields, elog.FieldCustomKeyValue(key, value))
 				}
 			}
-
+			event := "normal"
+			isSlowLog := false
 			if config.SlowLogThreshold > time.Duration(0) && cost > config.SlowLogThreshold {
-				logger.Warn("slow", fields...)
+				isSlowLog = true
+				event = "slow"
 			}
 
 			// error metric
 			if err != nil {
-				fields = append(fields, elog.FieldEvent("error"), elog.FieldErr(err))
+				fields = append(fields, elog.FieldEvent(event), elog.FieldErr(err))
 				if errors.Is(err, redis.Nil) {
 					logger.Warn("access", fields...)
 					return err
@@ -197,9 +199,13 @@ func accessInterceptor(compName string, config *config, logger *elog.Component) 
 				return err
 			}
 
-			if config.EnableAccessInterceptor {
-				fields = append(fields, elog.FieldEvent("normal"))
-				logger.Info("access", fields...)
+			if config.EnableAccessInterceptor || isSlowLog {
+				fields = append(fields, elog.FieldEvent(event))
+				if isSlowLog {
+					logger.Warn("access", fields...)
+				} else {
+					logger.Info("access", fields...)
+				}
 			}
 			return err
 		},
