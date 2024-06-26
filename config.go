@@ -39,7 +39,7 @@ type config struct {
 	SlowLogThreshold           time.Duration  // SlowLogThreshold 慢日志门限值，超过该门限值的请求，将被记录到慢日志中
 	OnFail                     string         // OnFail panic|error
 	EnableMetricInterceptor    bool           // EnableMetricInterceptor 是否开启监控，默认开启
-	EnableTraceInterceptor     bool           // EnableTraceInterceptor 是否开启链路，默认开启
+	EnableTraceInterceptor     bool           // EnableTraceInterceptor 是否开启链路，默认
 	EnableAccessInterceptor    bool           // EnableAccessInterceptor 是否开启，记录请求数据
 	EnableAccessInterceptorReq bool           // EnableAccessInterceptorReq 是否开启记录请求参数
 	EnableAccessInterceptorRes bool           // EnableAccessInterceptorRes 是否开启记录响应参数
