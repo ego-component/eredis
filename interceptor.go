@@ -192,8 +192,15 @@ func accessInterceptor(compName string, config *config, logger *elog.Component) 
 			if err != nil {
 				fields = append(fields, elog.FieldEvent(event), elog.FieldErr(err))
 				if errors.Is(err, redis.Nil) {
-					logger.Warn("access", fields...)
+					// 这种日志可能很多，也没必要，只有开启的时候，或者慢日志的时候记录
+					if config.EnableAccessInterceptor || isSlowLog {
+						logger.Warn("access", fields...)
+					}
 					return err
+				}
+				// 如果用户没开启req，那么错误必记录Req
+				if !config.EnableAccessInterceptorReq {
+					fields = append(fields, elog.Any("req", cmd.Args()))
 				}
 				logger.Error("access", fields...)
 				return err
