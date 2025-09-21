@@ -10,14 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-redis/redis/extra/rediscmd/v8"
-	"github.com/go-redis/redis/v8"
 	"github.com/gotomicro/ego/core/eapp"
 	"github.com/gotomicro/ego/core/elog"
 	"github.com/gotomicro/ego/core/emetric"
 	"github.com/gotomicro/ego/core/etrace"
 	"github.com/gotomicro/ego/core/transport"
 	"github.com/gotomicro/ego/core/util/xdebug"
+	rediscmd "github.com/redis/go-redis/extra/rediscmd/v9"
+	"github.com/redis/go-redis/v9"
 	"github.com/spf13/cast"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
@@ -51,6 +51,63 @@ func (i *interceptor) BeforeProcessPipeline(ctx context.Context, cmds []redis.Cm
 
 func (i *interceptor) AfterProcessPipeline(ctx context.Context, cmds []redis.Cmder) error {
 	return i.afterProcessPipeline(ctx, cmds)
+}
+
+// DialHook 实现 redis.DialHook
+func (i *interceptor) DialHook(next redis.DialHook) redis.DialHook {
+	return next // 如果不需要拦截连接建立，直接返回 next
+}
+
+// ProcessHook 实现 redis.ProcessHook
+func (i *interceptor) ProcessHook(next redis.ProcessHook) redis.ProcessHook {
+	return func(ctx context.Context, cmd redis.Cmder) error {
+		// BeforeProcess 逻辑
+		if i.beforeProcess != nil {
+			newCtx, err := i.beforeProcess(ctx, cmd)
+			if err != nil {
+				return err
+			}
+			ctx = newCtx
+		}
+
+		// 调用下一个 hook 或实际的命令执行
+		err := next(ctx, cmd)
+
+		// AfterProcess 逻辑
+		if i.afterProcess != nil {
+			if afterErr := i.afterProcess(ctx, cmd); afterErr != nil {
+				return afterErr
+			}
+		}
+
+		return err
+	}
+}
+
+// ProcessPipelineHook 实现 redis.ProcessPipelineHook
+func (i *interceptor) ProcessPipelineHook(next redis.ProcessPipelineHook) redis.ProcessPipelineHook {
+	return func(ctx context.Context, cmds []redis.Cmder) error {
+		// BeforeProcessPipeline 逻辑
+		if i.beforeProcessPipeline != nil {
+			newCtx, err := i.beforeProcessPipeline(ctx, cmds)
+			if err != nil {
+				return err
+			}
+			ctx = newCtx
+		}
+
+		// 调用下一个 hook 或实际的管道执行
+		err := next(ctx, cmds)
+
+		// AfterProcessPipeline 逻辑
+		if i.afterProcessPipeline != nil {
+			if afterErr := i.afterProcessPipeline(ctx, cmds); afterErr != nil {
+				return afterErr
+			}
+		}
+
+		return err
+	}
 }
 
 func newInterceptor(compName string, config *config, logger *elog.Component) *interceptor {
@@ -96,7 +153,7 @@ func fixedInterceptor(compName string, config *config, logger *elog.Component) *
 			return context.WithValue(ctx, ctxBegKey, time.Now()), nil
 		}).
 		setAfterProcess(func(ctx context.Context, cmd redis.Cmder) error {
-			var err = cmd.Err()
+			err := cmd.Err()
 			// go-redis script的error做了prefix处理
 			// https://github.com/go-redis/redis/blob/master/script.go#L61
 			if err != nil && !strings.HasPrefix(err.Error(), "NOSCRIPT ") {
@@ -155,8 +212,8 @@ func metricInterceptor(compName string, config *config, logger *elog.Component) 
 func accessInterceptor(compName string, config *config, logger *elog.Component) *interceptor {
 	return newInterceptor(compName, config, logger).setAfterProcess(
 		func(ctx context.Context, cmd redis.Cmder) error {
-			var fields = make([]elog.Field, 0, 15+transport.CustomContextKeysLength())
-			var err = cmd.Err()
+			fields := make([]elog.Field, 0, 15+transport.CustomContextKeysLength())
+			err := cmd.Err()
 			cost := time.Since(ctx.Value(ctxBegKey).(time.Time))
 			fields = append(fields,
 				elog.FieldComponentName(compName),

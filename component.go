@@ -1,8 +1,8 @@
 package eredis
 
 import (
-	"github.com/go-redis/redis/v8"
 	"github.com/gotomicro/ego/core/elog"
+	"github.com/redis/go-redis/v9"
 )
 
 const PackageName = "component.eredis"

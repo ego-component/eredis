@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/go-redis/redis/v8"
 	"github.com/gotomicro/ego/core/econf"
 	"github.com/gotomicro/ego/core/elog"
+	"github.com/redis/go-redis/v9"
 )
 
 type Option func(c *Container)
@@ -109,18 +109,18 @@ func (c *Container) Build(options ...Option) *Component {
 
 func (c *Container) buildCluster() *redis.ClusterClient {
 	clusterClient := redis.NewClusterClient(&redis.ClusterOptions{
-		Addrs:        c.config.Addrs,
-		MaxRedirects: c.config.MaxRetries,
-		ReadOnly:     c.config.ReadOnly,
-		Password:     c.config.Password,
-		MaxRetries:   c.config.MaxRetries,
-		DialTimeout:  c.config.DialTimeout,
-		ReadTimeout:  c.config.ReadTimeout,
-		WriteTimeout: c.config.WriteTimeout,
-		PoolSize:     c.config.PoolSize,
-		MinIdleConns: c.config.MinIdleConns,
-		IdleTimeout:  c.config.IdleTimeout,
-		TLSConfig:    c.config.Authentication.TLSConfig(),
+		Addrs:           c.config.Addrs,
+		MaxRedirects:    c.config.MaxRetries,
+		ReadOnly:        c.config.ReadOnly,
+		Password:        c.config.Password,
+		MaxRetries:      c.config.MaxRetries,
+		DialTimeout:     c.config.DialTimeout,
+		ReadTimeout:     c.config.ReadTimeout,
+		WriteTimeout:    c.config.WriteTimeout,
+		PoolSize:        c.config.PoolSize,
+		MinIdleConns:    c.config.MinIdleConns,
+		ConnMaxIdleTime: c.config.IdleTimeout,
+		TLSConfig:       c.config.Authentication.TLSConfig(),
 	})
 
 	for _, incpt := range c.config.interceptors {
@@ -151,7 +151,7 @@ func (c *Container) buildSentinel() *redis.Client {
 		WriteTimeout:     c.config.WriteTimeout,
 		PoolSize:         c.config.PoolSize,
 		MinIdleConns:     c.config.MinIdleConns,
-		IdleTimeout:      c.config.IdleTimeout,
+		ConnMaxIdleTime:  c.config.IdleTimeout,
 		TLSConfig:        c.config.Authentication.TLSConfig(),
 	})
 
@@ -172,17 +172,17 @@ func (c *Container) buildSentinel() *redis.Client {
 
 func (c *Container) buildStub() *redis.Client {
 	stubClient := redis.NewClient(&redis.Options{
-		Addr:         c.config.Addr,
-		Password:     c.config.Password,
-		DB:           c.config.DB,
-		MaxRetries:   c.config.MaxRetries,
-		DialTimeout:  c.config.DialTimeout,
-		ReadTimeout:  c.config.ReadTimeout,
-		WriteTimeout: c.config.WriteTimeout,
-		PoolSize:     c.config.PoolSize,
-		MinIdleConns: c.config.MinIdleConns,
-		IdleTimeout:  c.config.IdleTimeout,
-		TLSConfig:    c.config.Authentication.TLSConfig(),
+		Addr:            c.config.Addr,
+		Password:        c.config.Password,
+		DB:              c.config.DB,
+		MaxRetries:      c.config.MaxRetries,
+		DialTimeout:     c.config.DialTimeout,
+		ReadTimeout:     c.config.ReadTimeout,
+		WriteTimeout:    c.config.WriteTimeout,
+		PoolSize:        c.config.PoolSize,
+		MinIdleConns:    c.config.MinIdleConns,
+		ConnMaxIdleTime: c.config.IdleTimeout,
+		TLSConfig:       c.config.Authentication.TLSConfig(),
 	})
 
 	for _, incpt := range c.config.interceptors {

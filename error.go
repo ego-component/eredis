@@ -1,6 +1,6 @@
 package eredis
 
-import "github.com/go-redis/redis/v8"
+import "github.com/redis/go-redis/v9"
 
 type Err string
 
@@ -16,6 +16,6 @@ const (
 	// ErrLockNotHeld is returned when trying to release an inactive Lock.
 	ErrLockNotHeld = Err("redislock: lock not held")
 
-	//Nil reply returned by Redis when key does not exist.
+	// Nil reply returned by Redis when key does not exist.
 	Nil = redis.Nil
 )
