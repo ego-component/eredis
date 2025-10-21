@@ -4,11 +4,12 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/base64"
-	"github.com/go-redis/redis/v8"
 	"io"
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/redis/go-redis/v9"
 )
 
 var (

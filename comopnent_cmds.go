@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/go-redis/redis/v8"
+	"github.com/redis/go-redis/v9"
 )
 
 // Ping
@@ -69,7 +69,7 @@ func (r *Component) Set(ctx context.Context, key string, value interface{}, expi
 
 // SetEX ...
 func (r *Component) SetEX(ctx context.Context, key string, value interface{}, expire time.Duration) error {
-	return r.client.SetEX(ctx, key, value, expire).Err()
+	return r.client.SetEx(ctx, key, value, expire).Err()
 }
 
 // SetNX ...
@@ -247,7 +247,7 @@ func (r *Component) ZScore(ctx context.Context, key string, member string) (floa
 }
 
 // ZAdd 将一个或多个 member 元素及其 score 值加入到有序集 key 当中
-func (r *Component) ZAdd(ctx context.Context, key string, members ...*redis.Z) (int64, error) {
+func (r *Component) ZAdd(ctx context.Context, key string, members ...redis.Z) (int64, error) {
 	return r.client.ZAdd(ctx, key, members...).Result()
 }
 

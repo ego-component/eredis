@@ -6,10 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-redis/redis/v8"
 	"github.com/gotomicro/ego/core/elog"
 	"github.com/gotomicro/ego/core/emetric"
 	"github.com/gotomicro/ego/server/egovernor"
+	"github.com/redis/go-redis/v9"
 )
 
 var instances = sync.Map{}

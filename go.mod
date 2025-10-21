@@ -1,12 +1,12 @@
 module github.com/ego-component/eredis
 
-go 1.17
+go 1.19
 
 require (
 	github.com/BurntSushi/toml v0.3.1
-	github.com/go-redis/redis/extra/rediscmd/v8 v8.11.4
-	github.com/go-redis/redis/v8 v8.11.4
 	github.com/gotomicro/ego v1.0.3
+	github.com/redis/go-redis/extra/rediscmd/v9 v9.14.0
+	github.com/redis/go-redis/v9 v9.14.0
 	github.com/spf13/cast v1.3.1
 	github.com/stretchr/testify v1.7.0
 	go.opentelemetry.io/otel v1.4.1
@@ -17,7 +17,7 @@ require (
 	github.com/StackExchange/wmi v0.0.0-20210224194228-fe8f1750fd46 // indirect
 	github.com/alibaba/sentinel-golang v1.0.3 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/felixge/fgprof v0.9.1 // indirect

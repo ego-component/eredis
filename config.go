@@ -4,8 +4,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-redis/redis/v8"
 	"github.com/gotomicro/ego/core/util/xtime"
+	"github.com/redis/go-redis/v9"
 )
 
 const (
